@@ -1,6 +1,4 @@
-import getAllStores from "@/lib/getAllStores";
 import prismadb from "@/lib/prismadb";
-import { Store } from "@prisma/client";
 
 interface DashboardPageProps {
   params: { storeId: string };
