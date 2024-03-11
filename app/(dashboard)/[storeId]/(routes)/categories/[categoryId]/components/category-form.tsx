@@ -76,11 +76,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       setLoading(true);
       if (initialData) {
         await axios.patch(
-          `/api/stores/${params?.storeId}/categories/${params.categoryId}`,
+          `/api/${params?.storeId}/categories/${params.categoryId}`,
           values
         );
       } else {
-        await axios.post(`/api/stores/${params?.storeId}/categories`, values);
+        await axios.post(`/api/${params?.storeId}/categories`, values);
       }
 
       router.push(`/${params?.storeId}/categories`);
@@ -98,7 +98,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       setLoading(true);
       if (initialData) {
         await axios.delete(
-          `/api/stores/${params?.storeId}/categories/${params?.categoryId}`
+          `/api/${params?.storeId}/categories/${params?.categoryId}`
         );
       }
       router.push(`/${params.storeId}/categories`);

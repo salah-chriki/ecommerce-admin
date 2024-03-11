@@ -89,11 +89,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
       setLoading(true);
       if (initialData) {
         await axios.patch(
-          `/api/stores/${params?.storeId}/products/${params.productId}`,
+          `/api/${params?.storeId}/products/${params.productId}`,
           values
         );
       } else {
-        await axios.post(`/api/stores/${params?.storeId}/products`, values);
+        await axios.post(`/api/${params?.storeId}/products`, values);
       }
 
       router.push(`/${params?.storeId}/products`);
@@ -111,7 +111,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       setLoading(true);
       if (initialData) {
         await axios.delete(
-          `/api/stores/${params?.storeId}/products/${params?.productId}`
+          `/api/${params?.storeId}/products/${params?.productId}`
         );
       }
       router.push(`/${params.storeId}/products`);

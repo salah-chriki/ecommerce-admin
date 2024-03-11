@@ -34,7 +34,7 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params?.storeId}/products/${data.id}`);
+      await axios.delete(`/api/${params?.storeId}/products/${data.id}`);
       router.refresh();
       toast.success("Product deleted");
     } catch (error) {
