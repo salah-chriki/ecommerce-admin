@@ -61,11 +61,11 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onCopy}>
             <Copy className="mr-2 w-4 h-4" />
             Copy category ID
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() =>
               router.push(`/${params.storeId}/categories/${data.id}`)

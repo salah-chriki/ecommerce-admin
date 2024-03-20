@@ -8,16 +8,16 @@ export async function GET(
 ) {
   try {
     if (!params.categoryId) {
-      return new NextResponse("billboardId is required", { status: 400 });
+      return new NextResponse("category id is required", { status: 400 });
     }
 
-    const billboard = await prismadb.billboard.findUnique({
+    const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,
       },
     });
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(category);
   } catch (error) {
     console.log("[CATEGORY_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
