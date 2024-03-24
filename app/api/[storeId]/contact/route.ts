@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 export async function OPTIONS() {
-  return NextResponse.json({}, { headers: corsHeaders });
+  return NextResponse.json({}, { status: 200, headers: corsHeaders });
 }
 
 export async function POST(
@@ -15,6 +15,9 @@ export async function POST(
   { params }: { params: { storeId: string } }
 ) {
   const body = await req.json();
+  if (!params.storeId) {
+    return new NextResponse("Store id is required", { status: 400 });
+  }
 
   return NextResponse.json(body, { status: 200, headers: corsHeaders });
 }
