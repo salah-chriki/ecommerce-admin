@@ -15,6 +15,7 @@ export async function POST(
   { params }: { params: { storeId: string } }
 ) {
   const body = await req.json();
+  const { name, email, message } = body;
   if (!params.storeId) {
     return new NextResponse("Store id is required", { status: 400 });
   }
@@ -27,8 +28,8 @@ export async function POST(
     Messages: [
       {
         From: {
-          Email: body.email,
-          Name: body.name,
+          Email: email,
+          Name: name,
         },
         To: [
           {
@@ -37,19 +38,23 @@ export async function POST(
           },
         ],
         Subject: "New Contact Form!",
-        TextPart: body.message,
+        TextPart: message,
         HTMLPart:
           '<h3>Dear passenger 1, welcome to <a href="https://www.mailjet.com/">Mailjet</a>!</h3><br />May the delivery force be with you!',
       },
     ],
   });
+
   request
     .then((result: Request) => {
       console.log(result.body);
     })
-    .catch((err: Error) => {
-      console.log(err.message);
+    .catch((err: any) => {
+      console.log(err.statusCode);
     });
 
-  return NextResponse.json(body, { status: 200, headers: corsHeaders });
+  return NextResponse.json(
+    { submitted: true },
+    { status: 200, headers: corsHeaders }
+  );
 }
