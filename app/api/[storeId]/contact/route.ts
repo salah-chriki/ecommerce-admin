@@ -1,7 +1,22 @@
-export async function POST(request: Request) {
-  const formData = await request.formData();
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const message = formData.get("message");
-  return Response.json({ name, email, message });
+import { NextResponse } from "next/server";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
+export async function POST(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  const body = await req.json();
+
+  return NextResponse.json(body, {
+    headers: corsHeaders,
+  });
 }
