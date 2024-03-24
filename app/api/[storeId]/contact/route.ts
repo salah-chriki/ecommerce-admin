@@ -16,7 +16,5 @@ export async function POST(
 ) {
   const body = await req.json();
 
-  return NextResponse.json(body, {
-    headers: corsHeaders,
-  });
+  return NextResponse.json(body, { status: 200, headers: corsHeaders });
 }
