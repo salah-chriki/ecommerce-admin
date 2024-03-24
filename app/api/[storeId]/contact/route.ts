@@ -1,11 +1,19 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
-export async function POST(
-  req: Request,
+type ResponseData = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>,
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const body = await req.json();
+    const body = req.body();
     const { name, email, message } = body;
 
     if (!name) {
@@ -22,14 +30,7 @@ export async function POST(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    return new NextResponse(body.json(), {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-    });
+    res.status(200).json(body);
   } catch (error) {
     console.log("[CONTACT_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
