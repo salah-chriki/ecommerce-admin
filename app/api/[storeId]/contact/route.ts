@@ -22,8 +22,14 @@ export async function POST(
       return new NextResponse("Store id is required", { status: 400 });
     }
 
-    console.log("body", body);
-    return NextResponse.json(body);
+    return new NextResponse(body.json(), {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+    });
   } catch (error) {
     console.log("[CONTACT_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
