@@ -29,8 +29,8 @@ export async function POST(
   });
 
   mg.messages
-    .create("sandbox-123.mailgun.org", {
-      from: "Contact Form <mailgun@sandbox-123.mailgun.org>",
+    .create("sandbox5f34f1dd2fd047efb1f30a4df51697f2.mailgun.org", {
+      from: "Contact Form <mailgun@sandbox5f34f1dd2fd047efb1f30a4df51697f2.mailgun.org>",
       to: ["salahchriki1@gmail.com"],
       subject: "New Contact Form!",
       text: message,
