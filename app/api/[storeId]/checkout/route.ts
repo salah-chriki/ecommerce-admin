@@ -15,40 +15,59 @@ export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
-  const { name, email, opgg, cartItems } = await req.json();
+  try {
+    const { name, email, opgg, cartItems } = await req.json();
 
-  if (!cartItems || cartItems.length === 0) {
-    return new NextResponse("Products are required", { status: 400 });
-  }
-  const productIds = cartItems.map((item: any) => item.product.id);
+    if (!name) {
+      return new NextResponse("Name is required", { status: 400 });
+    }
+    if (!email) {
+      return new NextResponse("Email is required", { status: 400 });
+    }
+    if (!opgg) {
+      return new NextResponse("OPGG is required", { status: 400 });
+    }
+    if (!params.storeId) {
+      return new NextResponse("Store id is required", { status: 400 });
+    }
 
-  const products = await prismadb.product.findMany({
-    where: {
-      id: {
-        in: productIds,
+    if (!cartItems || cartItems.length === 0) {
+      return new NextResponse("Products are required", { status: 400 });
+    }
+    const productIds = cartItems.map((item: any) => item.product.id);
+
+    const products = await prismadb.product.findMany({
+      where: {
+        id: {
+          in: productIds,
+        },
       },
-    },
-  });
+    });
 
-  const order = await prismadb.order.create({
-    data: {
-      storeId: params.storeId,
-      isPaid: false,
-      email: email,
-      fullName: name,
-      opgg: opgg,
-      orderItems: {
-        create: productIds.map((productId: string) => ({
-          product: {
-            connect: {
-              id: productId,
+    const postOrder = await prismadb.order.create({
+      data: {
+        storeId: params.storeId,
+        isPaid: false,
+        email: email,
+        fullName: name,
+        opgg: opgg,
+        orderItems: {
+          create: productIds.map((productId: string) => ({
+            product: {
+              connect: {
+                id: productId,
+              },
             },
-          },
-          quantity: cartItems.find((item: any) => item.product.id === productId)
-            .quantity,
-        })),
+            quantity: cartItems.find(
+              (item: any) => item.product.id === productId
+            ).quantity,
+          })),
+        },
       },
-    },
-  });
-  return NextResponse.json({ submitted: true }, { headers: corsHeaders });
+    });
+    return NextResponse.json(postOrder, { headers: corsHeaders });
+  } catch (error) {
+    console.log("[UNPAID_ORDER_POST]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
 }
