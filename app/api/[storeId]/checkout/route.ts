@@ -34,9 +34,9 @@ export async function POST(
     data: {
       storeId: params.storeId,
       isPaid: false,
-      email: email, // Add the missing 'email' property
-      fullName: name, // Add the missing 'fullName' property
-      opgg: opgg, // Add the missing 'opgg' property
+      email: email,
+      fullName: name,
+      opgg: opgg,
       orderItems: {
         create: productIds.map((productId: string) => ({
           product: {
