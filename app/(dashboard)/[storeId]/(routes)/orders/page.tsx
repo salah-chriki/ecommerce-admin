@@ -25,7 +25,7 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     email: order.email,
     opgg: order.opgg,
     products: order.orderItems
-      .map((orderItem) => orderItem.product.name)
+      .map((orderItem) => `${orderItem.product.name} ( ${orderItem.quantity})`)
       .join(","),
     isPaid: order.isPaid,
     totalPrice: formatter.format(
