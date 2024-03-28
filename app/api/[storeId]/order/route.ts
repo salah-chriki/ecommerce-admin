@@ -34,7 +34,7 @@ export async function PATCH(
         isPaid: true,
       },
     });
-    return NextResponse.json(order, { headers: corsHeaders });
+    return NextResponse.json({ order }, { headers: corsHeaders });
   } catch (error) {
     console.log("[ORDER_POST]", error);
     return new NextResponse("Internal error", { status: 500 });

@@ -65,7 +65,7 @@ export async function POST(
         },
       },
     });
-    return NextResponse.json(postOrder, { headers: corsHeaders });
+    return NextResponse.json({ postOrder }, { headers: corsHeaders });
   } catch (error) {
     console.log("[UNPAID_ORDER_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
