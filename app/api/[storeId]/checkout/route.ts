@@ -20,7 +20,7 @@ export async function POST(
   if (!cartItems || cartItems.length === 0) {
     return new NextResponse("Products are required", { status: 400 });
   }
-  const productIds = cartItems.map((item: any) => item.productId);
+  const productIds = cartItems.map((item: any) => item.product.id);
 
   const products = await prismadb.product.findMany({
     where: {
@@ -44,7 +44,7 @@ export async function POST(
               id: productId,
             },
           },
-          quantity: cartItems.find((item: any) => item.productId === productId)
+          quantity: cartItems.find((item: any) => item.product.id === productId)
             .quantity,
         })),
       },
