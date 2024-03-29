@@ -16,7 +16,7 @@ export async function PATCH(
   { params }: { params: { storeId: string } }
 ) {
   try {
-    const { orderId } = await req.json();
+    const { orderId, isPaid } = await req.json();
 
     if (!orderId) {
       return new NextResponse("OrderId is required", { status: 400 });
@@ -31,10 +31,10 @@ export async function PATCH(
         storeId: params.storeId,
       },
       data: {
-        isPaid: true,
+        isPaid,
       },
     });
-    return NextResponse.json(order, { headers: corsHeaders });
+    return NextResponse.json("Order is paid", { headers: corsHeaders });
   } catch (error) {
     console.log("[ORDER_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
