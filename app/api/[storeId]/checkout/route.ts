@@ -1,5 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
+import { useEffect } from "react";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -65,7 +66,7 @@ export async function POST(
         },
       },
     });
-    return NextResponse.json(postOrder.id, { headers: corsHeaders });
+    return NextResponse.json({orderId:postOrder.id}, { headers: corsHeaders });
   } catch (error) {
     console.log("[UNPAID_ORDER_POST]", error);
     return new NextResponse("Internal error", { status: 500 });
