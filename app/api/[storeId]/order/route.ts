@@ -11,7 +11,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function PATCH(
+export async function POST(
   req: Request,
   { params }: { params: { storeId: string } }
 ) {
