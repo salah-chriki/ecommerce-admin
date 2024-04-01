@@ -10,7 +10,7 @@ const SetupPage = () => {
   useEffect(() => {
     if (!isOpen) onOpen();
   }, [isOpen, onOpen]);
-  console.log("SetupPage");
+  console.log("in SetupPage");
   return null;
 };
 export default SetupPage;
