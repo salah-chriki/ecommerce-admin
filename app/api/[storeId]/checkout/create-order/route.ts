@@ -8,20 +8,12 @@ const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: Request) {
-  const { cartItems } = await req.json();
-  const totalPrice = cartItems
-    .reduce((total: number, item: any) => {
-      return total + Number(item.product.price * item.quantity);
+  const { items } = await req.json();
+  const totalPrice = items
+    .reduce((total: any, item: any) => {
+      return total + Number(item.unit_amount.value * item.quantity);
     }, 0)
     .toFixed(2);
-  const items = cartItems.map((item: any) => ({
-    name: item.product.name,
-    quantity: item.quantity,
-    unit_amount: {
-      currency_code: "EUR",
-      value: item.product.price,
-    },
-  }));
 
   const request = new paypal.orders.OrdersCreateRequest();
   request.requestBody({
@@ -31,36 +23,36 @@ export async function POST(req: Request) {
         amount: {
           currency_code: "EUR",
           value: totalPrice,
-          // breakdown: {
-          //   item_total: {
-          //     currency_code: "EUR",
-          //     value: totalPrice,
-          //   },
-          //   discount: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          //   handling: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          //   insurance: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          //   shipping_discount: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          //   shipping: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          //   tax_total: {
-          //     currency_code: "EUR",
-          //     value: "0.00",
-          //   },
-          // },
+          breakdown: {
+            item_total: {
+              currency_code: "EUR",
+              value: totalPrice,
+            },
+            discount: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+            handling: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+            insurance: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+            shipping_discount: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+            shipping: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+            tax_total: {
+              currency_code: "EUR",
+              value: "0.00",
+            },
+          },
         },
       },
     ],
