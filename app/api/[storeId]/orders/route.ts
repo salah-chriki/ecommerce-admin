@@ -114,7 +114,14 @@ export async function GET(
         storeId: params.storeId,
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     return NextResponse.json(orders);

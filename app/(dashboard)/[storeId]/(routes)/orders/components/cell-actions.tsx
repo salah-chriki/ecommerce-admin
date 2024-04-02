@@ -34,11 +34,9 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(
-        `/api/stores/${params?.storeId}/billboards/${data.id}`
-      );
+      await axios.delete(`/api/${params?.storeId}/orders/${data.id}`);
       router.refresh();
-      toast.success("Billboard deleted");
+      toast.success("Order deleted");
     } catch (error) {
       toast.error("make sure to delete all products and categories first");
     } finally {
@@ -65,13 +63,11 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem onClick={onCopy}>
             <Copy className="mr-2 w-4 h-4" />
-            Copy billboard ID
+            Copy order ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() =>
-              router.push(`/${params.storeId}/billboards/${data.id}`)
-            }
+            onClick={() => router.push(`/${params.storeId}/orders/${data.id}`)}
           >
             <SquarePen className="mr-2 w-4 h-4" />
             Update
